@@ -139,11 +139,10 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       const currentScale = projection.scale()
       const scaleFactor = currentScale / radius
 
-      // Draw ocean (globe background)
+      // Draw ocean (globe background) - transparent
       context.beginPath()
       context.arc(containerWidth / 2, containerHeight / 2, currentScale, 0, 2 * Math.PI)
-      context.fillStyle = "#000000"
-      context.fill()
+      // No fill for transparent background
       context.strokeStyle = "#ffffff"
       context.lineWidth = 2 * scaleFactor
       context.stroke()
@@ -266,16 +265,9 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       document.addEventListener("mouseup", handleMouseUp)
     }
 
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault()
-      const scaleFactor = event.deltaY > 0 ? 0.9 : 1.1
-      const newRadius = Math.max(radius * 0.5, Math.min(radius * 3, projection.scale() * scaleFactor))
-      projection.scale(newRadius)
-      render()
-    }
+    // Zoom disabled - only rotation allowed
 
     canvas.addEventListener("mousedown", handleMouseDown)
-    canvas.addEventListener("wheel", handleWheel)
 
     // Load the world data
     loadWorldData()
@@ -284,7 +276,6 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
     return () => {
       rotationTimer.stop()
       canvas.removeEventListener("mousedown", handleMouseDown)
-      canvas.removeEventListener("wheel", handleWheel)
     }
   }, [width, height])
 
@@ -303,12 +294,9 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
     <div className={`relative ${className}`}>
       <canvas
         ref={canvasRef}
-        className="w-full h-auto rounded-2xl bg-background dark"
+        className="w-full h-auto rounded-2xl"
         style={{ maxWidth: "100%", height: "auto" }}
       />
-      <div className="absolute bottom-4 left-4 text-xs text-muted-foreground px-2 py-1 rounded-md dark bg-neutral-900">
-        Drag to rotate • Scroll to zoom
-      </div>
     </div>
   )
 }

@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🚀 Inzpektor **The Proof of Clean Hands Protocol**
 
-First, run the development server:
+### *Zero-Knowledge Reputation for Trustworthy Users on Blockchain*
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# **Enterprise Pitch (Refined)**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## **What is the Proof of Clean Hands Protocol?**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The **Proof of Clean Hands Protocol** is a Zero-Knowledge, reputation-based verification layer that ensures **users interacting with your platform are trustworthy, compliant, and maintain a clean behavioral trace across time** — without ever revealing private data.
 
-## Learn More
+It blends:
 
-To learn more about Next.js, take a look at the following resources:
+* **Stellar** for high-performance, auditable operations
+* **Noir (ZK)** for privacy-preserving validation
+* **A gamified reputation system** that continuously evaluates users’ integrity
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This creates a new standard for **trust on blockchain**, designed specifically for enterprises.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+# **The Core Value Proposition**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **“Verify if a user is trustworthy — without spying on them.”**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The protocol gives companies cryptographic guarantees that a user’s past interactions, patterns, and behaviors are clean, legitimate, and non-fraudulent.
+This is done using Zero-Knowledge proofs, ensuring **no private information is leaked, ever**.
+
+The result is a **reputation layer** that is:
+
+* ✔ **Universal** — works across apps, chains, and systems
+* ✔ **Tamper-proof** — verifiable on Stellar
+* ✔ **Privacy-first** — powered by Noir
+* ✔ **Engaging** — enhanced with gamified reputation mechanics
+
+---
+
+# **We Don’t Score People. We Score Behavior.**
+
+Instead of traditional scoring (which is invasive and outdated), the Proof of Clean Hands Protocol evaluates *behavioral patterns* through ZK proofs:
+
+* Honest participation
+* Rule compliance
+* Fraud avoidance
+* Positive contribution
+* Long-term reliability
+
+A user’s reputation is represented through **progression levels, streaks, badges, and trust tiers** — all provable without revealing the underlying data.
+
+---
+
+# **Why Enterprises Need This**
+
+### **1. Reduce fraud and abuse**
+
+Detect risky actors *before* they exploit your system — using cryptographically verified behavioral history.
+
+### **2. Lower compliance costs**
+
+Automate multi-year verification using short, efficient ZK attestations.
+
+### **3. Create safer ecosystems**
+
+Marketplaces, financial platforms, gaming economies, proptech, supply chain portals — all benefit from trusted participants.
+
+### **4. Increase conversion**
+
+Good users gain instant approvals, faster onboarding, and higher trust limits.
+
+### **5. Compete in a world where trust is a currency**
+
+Enterprises that use provable trust outperform those relying on traditional verification.
+
+---
+
+# **Gamified Reputation System (High-Level Overview)**
+
+Each user has a **private reputation state**, updated through:
+
+* Successful clean operations
+* Verified rule adherence
+* Completion of trust-building actions
+* Time-based progression
+* Community interactions (optional)
+
+Enterprises only see the **ZK-verified trust level**, not the internal data.
+
+This creates *incentives for users* and *safety for companies*, without sacrificing privacy.
+
+---
+
+# **Business Model: B2B Subscription**
+
+A clean and scalable SaaS model:
+
+### **Enterprise Plans**
+
+* Integration SDK
+* Automated ZK generation and verification
+* Reputation dashboards
+* Policy customization engine
+* API rate tiers
+* SLA + dedicated support
+
+### **Per-User or Per-Proof Pricing Add-ons**
+
+Scales effortlessly with enterprise growth.
+
