@@ -30,7 +30,7 @@ export function HeroWithGlobe() {
             <Button size="lg" className="bg-emerald-500 hover:bg-emerald-600 text-white px-8">
               Get Started
             </Button>
-            <Button size="lg" variant="outline" className="border-gray-700 text-white hover:bg-gray-800">
+            <Button size="lg" variant="outline" className="border-gray-700 text-black hover:bg-gray-400">
               View Documentation
             </Button>
           </div>
