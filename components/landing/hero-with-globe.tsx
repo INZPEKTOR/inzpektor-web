@@ -6,7 +6,7 @@ export function HeroWithGlobe() {
   return (
     <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
       {/* Left: Hero Content */}
-      <div className="order-2 lg:order-1">
+      <div className="order-1 lg:order-1">
         <div className="relative z-10 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-6">
             <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -54,7 +54,7 @@ export function HeroWithGlobe() {
       </div>
       
       {/* Right: Rotating Earth */}
-      <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+      <div className="order-2 lg:order-2 flex justify-center lg:justify-end">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-full blur-3xl" />
           <RotatingEarth width={600} height={600} className="relative z-10" />

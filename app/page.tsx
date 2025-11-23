@@ -23,20 +23,41 @@ export default function Home() {
               </span>
             </h2>
             <div className="max-w-3xl mx-auto space-y-4">
-              <p className="text-xl text-gray-400 leading-relaxed">
-                <span className="text-red-400 font-semibold">When the light goes out:</span> This is the current situation — 
-                hidden actors, unknown risks, and zero visibility into user behavior.
-              </p>
-              <p className="text-xl text-gray-400 leading-relaxed">
-                <span className="font-semibold text-emerald-400">When the light comes on:</span> Everything is monitored through Proof of Clean Hands, 
-                increasing trust between the financial sector and blockchain.
-              </p>
               <p className="text-lg text-white font-semibold mt-4">
                 We are the missing piece of compliance in crypto.
               </p>
             </div>
           </div>
           <LightWidget />
+          <div className="mt-16 grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Light Off State */}
+            <div className="group relative bg-gradient-to-br from-red-500/5 to-red-900/5 border border-red-500/20 rounded-2xl p-8 hover:border-red-500/40 transition-all duration-300">
+              <div className="absolute inset-0 bg-red-500/5 rounded-2xl blur-xl group-hover:bg-red-500/10 transition-all duration-300" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse shadow-lg shadow-red-500/50" />
+                  <h3 className="text-2xl font-bold text-red-400">Light Off</h3>
+                </div>
+                <p className="text-gray-300 leading-relaxed">
+                  The current situation — hidden actors, unknown risks, and zero visibility into user behavior.
+                </p>
+              </div>
+            </div>
+
+            {/* Light On State */}
+            <div className="group relative bg-gradient-to-br from-emerald-500/5 to-cyan-500/5 border border-emerald-500/20 rounded-2xl p-8 hover:border-emerald-500/40 transition-all duration-300">
+              <div className="absolute inset-0 bg-emerald-500/5 rounded-2xl blur-xl group-hover:bg-emerald-500/10 transition-all duration-300" />
+              <div className="relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/50" />
+                  <h3 className="text-2xl font-bold text-emerald-400">Light On</h3>
+                </div>
+                <p className="text-gray-300 leading-relaxed">
+                  Everything monitored through Proof of Clean Hands, increasing trust between the financial sector and blockchain.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
