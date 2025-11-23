@@ -4,30 +4,64 @@ import { Mesh, Program, Renderer, Triangle } from "ogl"
 import { useEffect, useRef, useState } from "react"
 import type { MotionValue } from "framer-motion"
 
+/**
+ * Possible origin positions for light rays.
+ */
 export type RaysOrigin = "top-center" | "top-left" | "top-right" | "right" | "left" | "bottom-center" | "bottom-right" | "bottom-left"
 
+/**
+ * Props for the LightRays component.
+ */
 interface LightRaysProps {
+  /** Origin position for the light rays */
   raysOrigin?: RaysOrigin
+  /** Color of the light rays in hex format */
   raysColor?: string
+  /** Animation speed multiplier */
   raysSpeed?: number
+  /** How wide the light spreads (higher = wider) */
   lightSpread?: number
+  /** Length of the rays (multiplier) */
   rayLength?: number
+  /** Whether rays should pulse */
   pulsating?: boolean
+  /** Distance at which rays start to fade */
   fadeDistance?: number
+  /** Color saturation (1.0 = normal) */
   saturation?: number
+  /** How much mouse movement affects rays */
   mouseInfluence?: number
+  /** Amount of noise to add to rays */
   noiseAmount?: number
+  /** Distortion effect amount */
   distortion?: number
+  /** Additional CSS classes */
   className?: string
+  /** Whether to animate rays fading in on load */
   introAnimation?: boolean
+  /** Dynamic origin point that follows motion values */
   dynamicOrigin?: { x: MotionValue<number>; y: MotionValue<number> } | null
 }
 
 const DEFAULT_COLOR = "#ffffff"
+
+/**
+ * Converts a hex color string to RGB values normalized to 0-1 range.
+ * @param hex - Hex color string (e.g., "#ffffff")
+ * @returns Tuple of [r, g, b] values from 0 to 1
+ */
 const hexToRgb = (hex: string): [number, number, number] => {
   const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return m ? [Number.parseInt(m[1], 16) / 255, Number.parseInt(m[2], 16) / 255, Number.parseInt(m[3], 16) / 255] : [1, 1, 1]
 }
+
+/**
+ * Calculates anchor position and direction vector based on origin type.
+ * @param origin - The origin position type
+ * @param w - Canvas width
+ * @param h - Canvas height
+ * @returns Object with anchor position and direction vector
+ */
 const getAnchorAndDir = (origin: RaysOrigin, w: number, h: number): { anchor: [number, number]; dir: [number, number] } => {
   const outside = 0.2
   switch (origin) {
@@ -42,6 +76,23 @@ const getAnchorAndDir = (origin: RaysOrigin, w: number, h: number): { anchor: [n
   }
 }
 
+/**
+ * WebGL-based light rays effect component using OGL library.
+ *
+ * Creates dynamic, animated light rays emanating from a configurable origin point.
+ * The effect is rendered using custom GLSL shaders for high performance.
+ *
+ * Features:
+ * - Multiple origin positions (corners, edges, center)
+ * - Customizable color, speed, spread, and length
+ * - Optional pulsating animation
+ * - Noise and distortion effects
+ * - Dynamic origin following motion values (for interactive light sources)
+ * - Intersection Observer for performance optimization
+ * - Intro animation with fade-in effect
+ *
+ * @param props - Configuration options for the light rays effect
+ */
 const LightRays: React.FC<LightRaysProps> = ({
   raysOrigin = "top-center", raysColor = DEFAULT_COLOR, raysSpeed = 1, lightSpread = 1, rayLength = 2, pulsating = false, fadeDistance = 1.0, saturation = 1.0, mouseInfluence = 0.1, noiseAmount = 0.0, distortion = 0.0, className = "", introAnimation = true, dynamicOrigin = null,
 }) => {

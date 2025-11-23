@@ -1,6 +1,16 @@
 import { Info, ShieldCheck, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
+/**
+ * Dashboard hero section displaying user's Unique Humanity Score and passport status.
+ *
+ * Contains two main cards:
+ * - Score Card: Shows the user's current Unique Humanity Score (reputation score)
+ * - Success Card: Confirms passport minting with options to mint on other networks
+ *
+ * This component provides the user's key metrics and actions at a glance
+ * within the dashboard interface.
+ */
 export function HeroSection() {
   return (
     <div className="bg-emerald-50/50 py-8 border-b border-emerald-100">

@@ -4,20 +4,46 @@ import { useEffect, useState } from "react"
 import { ShieldCheck, UserX } from "lucide-react"
 import type { MotionValue } from "framer-motion"
 
+/**
+ * Props for the LightRevealBackground component.
+ */
 interface LightRevealBackgroundProps {
+  /** Motion value for the light source X position */
   lightX: MotionValue<number>
+  /** Motion value for the light source Y position */
   lightY: MotionValue<number>
+  /** Whether the light is currently on */
   isLightOn: boolean
 }
 
+/**
+ * Represents an item in the background that can be revealed by light.
+ */
 interface BackgroundItem {
+  /** Unique identifier */
   id: number
+  /** X position as percentage (0-100) */
   x: number
+  /** Y position as percentage (0-100) */
   y: number
+  /** Type of item to display */
   type: "binary" | "safe-user" | "malicious-user"
+  /** Content for binary type (0 or 1) */
   content?: string
 }
 
+/**
+ * Background component that reveals hidden content when illuminated by the light source.
+ *
+ * Creates a Matrix-style visualization with:
+ * - Dense binary code (0s and 1s) forming a grid pattern
+ * - Safe user icons (green shield checks) scattered throughout
+ * - Malicious user icons (red user-x) scattered throughout
+ *
+ * Items fade in/out based on their distance from the light source,
+ * creating a spotlight reveal effect that demonstrates the concept of
+ * illuminating hidden actors in the blockchain ecosystem.
+ */
 export function LightRevealBackground({ lightX, lightY, isLightOn }: LightRevealBackgroundProps) {
   const [items, setItems] = useState<BackgroundItem[]>([])
   const [lightPosition, setLightPosition] = useState({ x: 0, y: 0 })
@@ -89,6 +115,14 @@ export function LightRevealBackground({ lightX, lightY, isLightOn }: LightReveal
     }
   }, [lightX, lightY])
 
+  /**
+   * Calculates the opacity of an item based on its distance from the light source.
+   * Items closer to the light are more visible, creating a spotlight effect.
+   *
+   * @param itemX - Item X position as percentage
+   * @param itemY - Item Y position as percentage
+   * @returns Opacity value between 0 and 1
+   */
   const calculateOpacity = (itemX: number, itemY: number) => {
     if (!isLightOn) return 0
 
@@ -97,15 +131,15 @@ export function LightRevealBackground({ lightX, lightY, isLightOn }: LightReveal
     const itemPxY = (itemY / 100) * 600
 
     const distance = Math.sqrt(
-      Math.pow(lightPosition.x - itemPxX, 2) + 
+      Math.pow(lightPosition.x - itemPxX, 2) +
       Math.pow(lightPosition.y - itemPxY, 2)
     )
 
     // Reveal radius - items within this distance become visible
     const revealRadius = 180
-    
+
     if (distance > revealRadius) return 0
-    
+
     // Smooth fade based on distance
     return Math.max(0, 1 - (distance / revealRadius))
   }

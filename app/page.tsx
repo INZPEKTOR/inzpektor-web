@@ -1,6 +1,19 @@
 import HeroSection from "@/components/hero-landing"
 import { LightWidget } from "@/components/light-widget"
 
+/**
+ * Home page component for the INZPEKTOR web application.
+ *
+ * This is the main landing page that showcases:
+ * - Hero section with rotating globe and key messaging
+ * - Features grid highlighting platform capabilities
+ * - Enterprise benefits section
+ * - Interactive light widget demonstration
+ * - Explanation cards for "Light Off" (current state) and "Light On" (with INZPEKTOR)
+ *
+ * The page uses a dark theme with emerald/cyan gradient accents
+ * and includes decorative background elements for visual depth.
+ */
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">

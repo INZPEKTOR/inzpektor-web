@@ -2,6 +2,19 @@ import { ShieldCheck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import RotatingEarth from "@/components/rotating-earth"
 
+/**
+ * Hero section component with rotating globe visualization.
+ *
+ * This is the main hero section of the landing page featuring:
+ * - Badge highlighting Zero-Knowledge Reputation Protocol
+ * - Main headline: "The Proof of Clean Hands Protocol"
+ * - Description of the privacy-preserving verification system
+ * - Call-to-action buttons (Get Started, View Documentation)
+ * - Key stats (100% Privacy, Zero Data Leakage, Cross-Chain)
+ * - Interactive rotating Earth globe visualization
+ *
+ * Layout is responsive with grid columns on larger screens.
+ */
 export function HeroWithGlobe() {
   return (
     <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">

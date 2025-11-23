@@ -1,5 +1,9 @@
 import { CheckCircle2, Shield, TrendingDown, Users, Zap } from "lucide-react"
 
+/**
+ * Enterprise benefits data showcasing the key advantages of using INZPEKTOR.
+ * Each benefit includes an icon, title, description, and styling configuration.
+ */
 const benefits = [
   {
     icon: Shield,
@@ -35,6 +39,17 @@ const benefits = [
   }
 ]
 
+/**
+ * Enterprise benefits section component for the landing page.
+ *
+ * Displays a grid of key benefits that enterprises gain from using INZPEKTOR:
+ * - Fraud reduction through behavioral verification
+ * - Compliance cost reduction via ZK attestations
+ * - Safer ecosystem creation for marketplaces and platforms
+ * - Improved conversion rates for trusted users
+ *
+ * Includes call-to-action buttons for scheduling demos and viewing pricing.
+ */
 export function EnterpriseBenefits() {
   return (
     <div className="mt-32 relative">

@@ -1,5 +1,16 @@
 import { AlertCircle } from "lucide-react"
 
+/**
+ * Announcement banner component displayed at the top of pages.
+ *
+ * Shows important announcements or promotions with:
+ * - Alert icon for visibility
+ * - Highlighted message text
+ * - Link to more information
+ * - Dismiss button to hide the banner
+ *
+ * Currently displays the HUMN onchain SUMR announcement.
+ */
 export function AnnouncementBanner() {
   return (
     <div className="relative flex items-center justify-center gap-2 bg-sky-100 px-4 py-2 text-sm text-sky-900">

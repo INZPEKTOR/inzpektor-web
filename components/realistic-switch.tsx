@@ -1,12 +1,32 @@
 "use client"
 
+/**
+ * Props for the RealisticSwitch component.
+ */
 interface RealisticSwitchProps {
-  isOn: boolean;
-  onToggle: () => void;
-  orientation?: 'horizontal' | 'vertical';
+  /** Current state of the switch */
+  isOn: boolean
+  /** Callback when switch is toggled */
+  onToggle: () => void
+  /** Orientation of the switch */
+  orientation?: "horizontal" | "vertical"
 }
 
-export function RealisticSwitch({ isOn, onToggle, orientation = 'horizontal' }: RealisticSwitchProps) {
+/**
+ * A realistic-looking toggle switch component with 3D visual effects.
+ *
+ * Features:
+ * - Skeuomorphic design with realistic shadows and highlights
+ * - Support for horizontal or vertical orientation
+ * - Light indicator that glows when on
+ * - Dark mode container when switch is off
+ * - Accessible checkbox implementation with ARIA role
+ *
+ * Uses CSS classes from light-widget-switch.css for styling.
+ *
+ * @param props - Switch configuration and state
+ */
+export function RealisticSwitch({ isOn, onToggle, orientation = "horizontal" }: RealisticSwitchProps) {
   const switchClasses = `switch ${orientation === 'vertical' ? 'switch--vertical' : ''}`;
   const containerClasses = `switch-container ${!isOn ? 'switch-container--dark' : ''}`;
 

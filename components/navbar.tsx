@@ -2,6 +2,18 @@ import { Bell, ChevronDown, Hexagon } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+/**
+ * Main navigation bar component for the application.
+ *
+ * Features:
+ * - Logo and brand name (Human Passport)
+ * - Navigation links (Passport, Partner with us)
+ * - User points display
+ * - User account dropdown with avatar and wallet address
+ * - Notification bell with unread indicator
+ *
+ * The navbar is sticky and uses backdrop blur for visual depth.
+ */
 export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md">

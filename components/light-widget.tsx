@@ -10,6 +10,21 @@ import { Lamp } from "./lamp"
 import { RealisticSwitch } from "./realistic-switch"
 import "../app/light-widget-switch.css"
 
+/**
+ * Interactive light widget demonstration component.
+ *
+ * This component creates an interactive demonstration showing the concept of
+ * "illumination" in the INZPEKTOR system - revealing hidden information with light.
+ *
+ * Features:
+ * - Draggable hanging lamp with physics-based motion
+ * - Toggle switch to turn light on/off
+ * - Light reveals hidden content (safe users, malicious actors, binary code)
+ * - Cord pull interaction to toggle the light
+ *
+ * The widget demonstrates how INZPEKTOR illuminates hidden risks and actors
+ * in the blockchain ecosystem while maintaining privacy.
+ */
 export function LightWidget() {
   const containerRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
@@ -22,6 +37,10 @@ export function LightWidget() {
   const { isPositioned, anchor, restPosition } = useInitElasticBoxPositions(containerRef, x, y)
   useGravityEffect({ anchor, restPosition, x, y, rotation, isDraggingRef })
 
+  /**
+   * Handles pointer movement while dragging the lamp.
+   * Updates the lamp position based on cursor position within the container.
+   */
   const handlePointerMove = (e: PointerEvent) => {
     if (isDraggingRef.current && containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect()
@@ -30,12 +49,20 @@ export function LightWidget() {
     }
   }
 
+  /**
+   * Handles pointer release to end dragging.
+   * Cleans up event listeners.
+   */
   const handlePointerUp = () => {
     isDraggingRef.current = false
     window.removeEventListener("pointermove", handlePointerMove)
     window.removeEventListener("pointerup", handlePointerUp)
   }
 
+  /**
+   * Handles pointer down on the lamp to start dragging.
+   * Sets up event listeners for move and release.
+   */
   const handlePointerDown = (e: React.PointerEvent) => {
     isDraggingRef.current = true
     const target = e.target as HTMLElement
@@ -44,6 +71,9 @@ export function LightWidget() {
     window.addEventListener("pointerup", handlePointerUp)
   }
 
+  /**
+   * Toggles the light on/off state.
+   */
   const handleToggle = () => {
     setIsLightOn((prev) => !prev)
   }

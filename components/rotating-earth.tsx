@@ -3,12 +3,30 @@
 import { useEffect, useRef, useState } from "react"
 import * as d3 from "d3"
 
+/**
+ * Props for the RotatingEarth component.
+ */
 interface RotatingEarthProps {
+  /** Width of the canvas in pixels */
   width?: number
+  /** Height of the canvas in pixels */
   height?: number
+  /** Additional CSS classes for the container */
   className?: string
 }
 
+/**
+ * Interactive 3D rotating Earth globe visualization using D3.js and Canvas.
+ *
+ * Features:
+ * - Orthographic projection with halftone dot pattern for land masses
+ * - Auto-rotation with adjustable speed
+ * - Mouse drag interaction for manual rotation
+ * - Responsive sizing with device pixel ratio support
+ * - Graticule grid overlay
+ *
+ * @param props - Component configuration including dimensions and styling
+ */
 export default function RotatingEarth({ width = 800, height = 600, className = "" }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [error, setError] = useState<string | null>(null)
@@ -41,6 +59,12 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
 
     const path = d3.geoPath().projection(projection).context(context)
 
+    /**
+     * Determines if a point is inside a polygon using ray casting algorithm.
+     * @param point - The [x, y] coordinates to test
+     * @param polygon - Array of [x, y] coordinates forming the polygon
+     * @returns True if the point is inside the polygon
+     */
     const pointInPolygon = (point: [number, number], polygon: number[][]): boolean => {
       const [x, y] = point
       let inside = false
@@ -57,6 +81,13 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       return inside
     }
 
+    /**
+     * Determines if a point is inside a GeoJSON feature (Polygon or MultiPolygon).
+     * Handles both outer rings and interior holes.
+     * @param point - The [longitude, latitude] coordinates to test
+     * @param feature - The GeoJSON feature to test against
+     * @returns True if the point is inside the feature
+     */
     const pointInFeature = (point: [number, number], feature: GeoJSON.Feature): boolean => {
       const geometry = feature.geometry
 
@@ -97,40 +128,51 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       return false
     }
 
+    /**
+     * Generates a grid of dots within a GeoJSON feature for halftone rendering.
+     * @param feature - The GeoJSON feature to fill with dots
+     * @param dotSpacing - Spacing between dots (higher = fewer dots)
+     * @returns Array of [longitude, latitude] coordinates for dots
+     */
     const generateDotsInPolygon = (feature: GeoJSON.Feature, dotSpacing = 16) => {
       const dots: [number, number][] = []
       const bounds = d3.geoBounds(feature)
       const [[minLng, minLat], [maxLng, maxLat]] = bounds
 
       const stepSize = dotSpacing * 0.08
-      let pointsGenerated = 0
 
       for (let lng = minLng; lng <= maxLng; lng += stepSize) {
         for (let lat = minLat; lat <= maxLat; lat += stepSize) {
           const point: [number, number] = [lng, lat]
           if (pointInFeature(point, feature)) {
             dots.push(point)
-            pointsGenerated++
           }
         }
       }
 
-      console.log(
-        `[v0] Generated ${pointsGenerated} points for land feature:`,
-        feature.properties?.featurecla || "Land",
-      )
       return dots
     }
 
+    /**
+     * Data structure for a single dot on the globe.
+     */
     interface DotData {
+      /** Longitude coordinate */
       lng: number
+      /** Latitude coordinate */
       lat: number
+      /** Whether the dot is currently visible */
       visible: boolean
     }
 
+    // Collection of all dots to render on the globe
     const allDots: DotData[] = []
+    // GeoJSON data for land features
     let landFeatures: GeoJSON.FeatureCollection
 
+    /**
+     * Renders the globe with all visual elements (ocean, graticule, land, dots).
+     */
     const render = () => {
       // Clear canvas
       context.clearRect(0, 0, containerWidth, containerHeight)
@@ -185,6 +227,9 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       }
     }
 
+    /**
+     * Fetches world land data from Natural Earth GeoJSON and generates dots.
+     */
     const loadWorldData = async () => {
       try {
         const response = await fetch(
@@ -195,16 +240,12 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         landFeatures = await response.json()
 
         // Generate dots for all land features
-        let totalDots = 0
         landFeatures.features.forEach((feature: GeoJSON.Feature) => {
           const dots = generateDotsInPolygon(feature, 16)
           dots.forEach(([lng, lat]) => {
             allDots.push({ lng, lat, visible: true })
-            totalDots++
           })
         })
-
-        console.log(`[v0] Total dots generated: ${totalDots} across ${landFeatures.features.length} land features`)
 
         render()
       } catch {
@@ -212,11 +253,14 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       }
     }
 
-    // Set up rotation and interaction
+    // Rotation state and configuration
     const rotation: [number, number] = [0, 0]
     let autoRotate = true
     const rotationSpeed = 0.5
 
+    /**
+     * Updates rotation angle for auto-rotation animation.
+     */
     const rotate = () => {
       if (autoRotate) {
         rotation[0] += rotationSpeed
@@ -225,9 +269,12 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       }
     }
 
-    // Auto-rotation timer
+    // Start auto-rotation timer
     const rotationTimer = d3.timer(rotate)
 
+    /**
+     * Handles mouse drag interaction for manual globe rotation.
+     */
     const handleMouseDown = (event: MouseEvent) => {
       autoRotate = false
       const startX = event.clientX
@@ -241,6 +288,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
 
         rotation[0] = startRotation[0] + dx * sensitivity
         rotation[1] = startRotation[1] - dy * sensitivity
+        // Clamp vertical rotation to prevent flipping
         rotation[1] = Math.max(-90, Math.min(90, rotation[1]))
 
         projection.rotate(rotation)
@@ -251,6 +299,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         document.removeEventListener("mousemove", handleMouseMove)
         document.removeEventListener("mouseup", handleMouseUp)
 
+        // Resume auto-rotation after a brief delay
         setTimeout(() => {
           autoRotate = true
         }, 10)
@@ -259,8 +308,6 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       document.addEventListener("mousemove", handleMouseMove)
       document.addEventListener("mouseup", handleMouseUp)
     }
-
-    // Zoom disabled - only rotation allowed
 
     canvas.addEventListener("mousedown", handleMouseDown)
 

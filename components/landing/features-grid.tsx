@@ -1,5 +1,9 @@
 import { Zap, Lock, TrendingUp, CheckCircle2, Globe, ShieldCheck } from "lucide-react"
 
+/**
+ * Feature data for the features grid section.
+ * Each feature describes a key capability of the INZPEKTOR platform.
+ */
 const features = [
   {
     icon: Lock,
@@ -63,6 +67,19 @@ const features = [
   }
 ]
 
+/**
+ * Features grid component displaying the core capabilities of INZPEKTOR.
+ *
+ * Presents six key features in a responsive grid layout:
+ * - Privacy-First: Noir ZK proofs
+ * - High Performance: Stellar blockchain
+ * - Universal: Cross-chain compatibility
+ * - Tamper-Proof: On-chain verification
+ * - Gamified: Progression and incentives
+ * - Behavior-Based: Action-focused scoring
+ *
+ * Each feature card includes hover effects and gradient backgrounds.
+ */
 export function FeaturesGrid() {
   return (
     <div className="mt-32">

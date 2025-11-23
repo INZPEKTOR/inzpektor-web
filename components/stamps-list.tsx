@@ -7,19 +7,36 @@ import { ChevronDown, ChevronUp, Globe, User, Shield, Smartphone, Fingerprint, C
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
+/**
+ * Represents a verification stamp that users can connect to prove their identity or activity.
+ */
 interface Stamp {
+  /** Unique identifier for the stamp */
   id: string
+  /** Display title of the stamp */
   title: string
+  /** Description explaining the verification method */
   description: string
+  /** Icon element to display for the stamp */
   icon: React.ReactNode
+  /** Badges showing points or score rewards */
   badges: { label: string; value?: string; type: "points" | "score" | "default" }[]
+  /** Current status of the stamp */
   status: "connect" | "verified"
+  /** Optional provider that secures this verification */
   securedBy?: string
+  /** Progress towards completion (for verified stamps) */
   progress?: { current: number; total: number }
+  /** Number of days the verification remains valid */
   validityDays?: number
+  /** Optional color theme for the stamp */
   color?: string
 }
 
+/**
+ * Physical verification stamps that require real-world identity verification.
+ * These include government ID, biometrics, phone verification, etc.
+ */
 const PHYSICAL_STAMPS: Stamp[] = [
   {
     id: "gov-id",
@@ -89,6 +106,10 @@ const PHYSICAL_STAMPS: Stamp[] = [
   },
 ]
 
+/**
+ * Blockchain-based verification stamps that verify on-chain activity and participation.
+ * These include staking, NFT ownership, DAO governance, and other blockchain interactions.
+ */
 const BLOCKCHAIN_STAMPS: Stamp[] = [
   {
     id: "identity-staking",
@@ -167,6 +188,18 @@ const BLOCKCHAIN_STAMPS: Stamp[] = [
   },
 ]
 
+/**
+ * Renders an individual stamp card showing verification status and details.
+ *
+ * The card displays:
+ * - Icon and title
+ * - Badges for points/score rewards
+ * - Security provider information
+ * - Progress bar and validity for verified stamps
+ * - Connect button for unverified stamps
+ *
+ * @param stamp - The stamp data to display
+ */
 function StampCard({ stamp }: { stamp: Stamp }) {
   const isVerified = stamp.status === "verified"
 
@@ -252,6 +285,14 @@ function StampCard({ stamp }: { stamp: Stamp }) {
   )
 }
 
+/**
+ * Collapsible section component that groups related stamps together.
+ *
+ * @param title - Section title
+ * @param description - Section description
+ * @param icon - Icon to display in the section header
+ * @param stamps - Array of stamps to display in this section
+ */
 function Section({
   title,
   description,
@@ -291,6 +332,15 @@ function Section({
   )
 }
 
+/**
+ * Main component that displays all available verification stamps organized by category.
+ *
+ * Stamps are grouped into two sections:
+ * - Physical Verification: Real-world identity verification methods
+ * - Blockchain Networks and Activities: On-chain activity verification
+ *
+ * Each section is collapsible and displays stamps in a responsive grid layout.
+ */
 export function StampsList() {
   return (
     <div className="space-y-6">
