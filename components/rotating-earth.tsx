@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import * as d3 from "d3"
 
 /**
@@ -29,7 +29,6 @@ interface RotatingEarthProps {
  */
 export default function RotatingEarth({ width = 800, height = 600, className = "" }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -173,7 +172,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
     /**
      * Renders the globe with all visual elements (ocean, graticule, land, dots).
      */
-    const render = () => {
+    const render = (fallbackMode = false) => {
       // Clear canvas
       context.clearRect(0, 0, containerWidth, containerHeight)
 
@@ -188,17 +187,17 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       context.lineWidth = 2 * scaleFactor
       context.stroke()
 
-      if (landFeatures) {
-        // Draw graticule
-        const graticule = d3.geoGraticule()
-        context.beginPath()
-        path(graticule())
-        context.strokeStyle = "#ffffff"
-        context.lineWidth = 1 * scaleFactor
-        context.globalAlpha = 0.25
-        context.stroke()
-        context.globalAlpha = 1
+      // Draw graticule (always visible, even in fallback mode)
+      const graticule = d3.geoGraticule()
+      context.beginPath()
+      path(graticule())
+      context.strokeStyle = "#ffffff"
+      context.lineWidth = 1 * scaleFactor
+      context.globalAlpha = fallbackMode ? 0.4 : 0.25
+      context.stroke()
+      context.globalAlpha = 1
 
+      if (landFeatures && !fallbackMode) {
         // Draw land outlines
         context.beginPath()
         landFeatures.features.forEach((feature: GeoJSON.Feature) => {
@@ -249,13 +248,16 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
 
         render()
       } catch {
-        setError("Failed to load land map data")
+        // Use fallback animation when data fails to load
+        isFallbackMode = true
+        render(true)
       }
     }
 
     // Rotation state and configuration
     const rotation: [number, number] = [0, 0]
     let autoRotate = true
+    let isFallbackMode = false
     const rotationSpeed = 0.5
 
     /**
@@ -265,7 +267,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       if (autoRotate) {
         rotation[0] += rotationSpeed
         projection.rotate(rotation)
-        render()
+        render(isFallbackMode)
       }
     }
 
@@ -292,7 +294,7 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
         rotation[1] = Math.max(-90, Math.min(90, rotation[1]))
 
         projection.rotate(rotation)
-        render()
+        render(isFallbackMode)
       }
 
       const handleMouseUp = () => {
@@ -320,17 +322,6 @@ export default function RotatingEarth({ width = 800, height = 600, className = "
       canvas.removeEventListener("mousedown", handleMouseDown)
     }
   }, [width, height])
-
-  if (error) {
-    return (
-      <div className={`dark flex items-center justify-center bg-card rounded-2xl p-8 ${className}`}>
-        <div className="text-center">
-          <p className="dark text-destructive font-semibold mb-2">Error loading Earth visualization</p>
-          <p className="dark text-muted-foreground text-sm">{error}</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className={`relative ${className}`}>
